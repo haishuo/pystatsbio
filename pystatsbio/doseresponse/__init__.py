@@ -22,13 +22,16 @@ from pystatsbio.doseresponse._models import (
 )
 from pystatsbio.doseresponse._fit import fit_drm
 from pystatsbio.doseresponse._batch import fit_drm_batch
-from pystatsbio.doseresponse._potency import ec50, relative_potency
-from pystatsbio.doseresponse._bmd import bmd
+from pystatsbio.doseresponse._potency import ec50, relative_potency, EC50Result, RelativePotencyResult
+from pystatsbio.doseresponse._bmd import bmd, BMDResult
 
 __all__ = [
     "CurveParams",
     "DoseResponseResult",
     "BatchDoseResponseResult",
+    "EC50Result",
+    "RelativePotencyResult",
+    "BMDResult",
     "ll4",
     "ll5",
     "weibull1",
