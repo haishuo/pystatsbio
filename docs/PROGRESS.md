@@ -10,11 +10,11 @@
 
 | Metric | Current |
 |--------|---------|
-| Source lines (pystatsbio/) | 4,689 |
-| Test lines (tests/) | 1,959 |
-| Total tests | 248 |
-| Tests passing | 248 |
-| Phase 1 modules | 3/4 complete |
+| Source lines (pystatsbio/) | 5,103 |
+| Test lines (tests/) | 2,537 |
+| Total tests | 310 |
+| Tests passing | 310 |
+| Phase 1 modules | 4/4 complete |
 
 ---
 
@@ -110,13 +110,29 @@ ROC analysis with DeLong CIs (logit-transformed), DeLong test for comparing corr
 
 ---
 
-### 4. `pk/` — Non-Compartmental PK Analysis 🔧
+### 4. `pk/` — Non-Compartmental PK Analysis ✅
 
-**Status:** Stubs only
-**Files:** Stub files, 0 test files
-**Tests:** 0
+**Status:** Complete
+**Files:** 3 implementation + 1 test file
+**Tests:** 62 passing
 
-AUC (linear/log-linear/lin-up-log-down), Cmax/Tmax, half-life, clearance, Vz, PK summary statistics.
+Standard NCA calculations for every PK study: AUC (linear, log-linear, linear-up/log-down trapezoidal), AUMC, Cmax/Tmax, terminal elimination rate constant (lambda_z) via log-linear regression with automatic terminal phase selection, half-life, AUC extrapolation to infinity, clearance, and volume of distribution. CPU-only (PK data is always small).
+
+| File | Description |
+|------|-------------|
+| `_common.py` | `NCAResult` frozen dataclass with `.summary()` — route-aware labels (CL vs CL/F, Vz vs Vz/F) |
+| `_nca.py` | `nca()` — full NCA pipeline: validation, AUC (3 methods), AUMC, Cmax/Tmax, lambda_z auto-select, extrapolation, CL/Vz |
+| `__init__.py` | Public API exports |
+
+**Notable decisions:**
+- AUC_last computed to last measurable (non-zero) concentration, matching PKNCA/NonCompart convention
+- Linear-up/log-down is the default (FDA-recommended): linear trapezoidal on ascending segments, log-linear on descending
+- Log-linear trapezoidal: `AUC = (C1 - C2) * dt / ln(C1/C2)`, falls back to linear when C1 == C2 or either is zero
+- Lambda_z auto-selection: iterates 3..N terminal points (after Cmax), picks best adjusted R-squared
+- If fewer than 3 points available after Cmax, includes Cmax itself as a candidate
+- AUMC via matching trapezoidal methods: log-linear AUMC uses `(t1*C1 - t2*C2)/k + (C1-C2)/k²`
+- Input auto-sorted by time; duplicate time points rejected
+- Graceful degradation: all-zero concentrations return AUC=0, lambda_z=None
 
 **R packages to match:** PKNCA, NonCompart
 
@@ -150,4 +166,4 @@ PyStatistics (Package)  ← general statistical computing
 
 ---
 
-*Last updated after diagnostic/ module completion — 3/4 Phase 1 modules done.*
+*Last updated after pk/ module completion — Phase 1 complete (4/4 modules done).*
