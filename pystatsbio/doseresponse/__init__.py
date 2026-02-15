@@ -1,0 +1,42 @@
+"""
+Dose-response modeling for preclinical pharmacology.
+
+The workhorse of in vitro assay analysis and toxicology studies.
+Provides 4PL/5PL curve fitting, EC50/IC50 estimation, relative potency,
+benchmark dose analysis, and GPU-accelerated batch fitting for HTS campaigns.
+
+Validates against: R packages drc, nplr, BMDS.
+"""
+
+from pystatsbio.doseresponse._common import (
+    CurveParams,
+    DoseResponseResult,
+    BatchDoseResponseResult,
+)
+from pystatsbio.doseresponse._models import (
+    ll4,
+    ll5,
+    weibull1,
+    weibull2,
+    brain_cousens,
+)
+from pystatsbio.doseresponse._fit import fit_drm
+from pystatsbio.doseresponse._batch import fit_drm_batch
+from pystatsbio.doseresponse._potency import ec50, relative_potency
+from pystatsbio.doseresponse._bmd import bmd
+
+__all__ = [
+    "CurveParams",
+    "DoseResponseResult",
+    "BatchDoseResponseResult",
+    "ll4",
+    "ll5",
+    "weibull1",
+    "weibull2",
+    "brain_cousens",
+    "fit_drm",
+    "fit_drm_batch",
+    "ec50",
+    "relative_potency",
+    "bmd",
+]
