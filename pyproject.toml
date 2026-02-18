@@ -51,14 +51,19 @@ dev = [
     "ruff>=0.1",
     "mypy>=1.0",
 ]
+docs = [
+    "sphinx>=6.0",
+    "furo",
+]
 all = [
-    "pystatsbio[gpu,dev]",
+    "pystatsbio[gpu,dev,docs]",
 ]
 
 [project.urls]
-Homepage = "https://github.com/haishuo/pystatsbio"
-Repository = "https://github.com/haishuo/pystatsbio"
-Issues = "https://github.com/haishuo/pystatsbio/issues"
+Homepage = "https://sgcx.org/technology/pystatsbio/"
+Documentation = "https://sgcx.org/docs/pystatsbio/"
+Repository = "https://github.com/sgcx-org/pystatsbio"
+Issues = "https://github.com/sgcx-org/pystatsbio/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["pystatsbio"]
